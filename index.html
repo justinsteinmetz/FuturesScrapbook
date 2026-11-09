@@ -46,7 +46,7 @@ h1,h2,h3,p{margin:0}
 .r3{background:var(--prog);font-family:var(--display)}
 .r4{background:#3f6bff;color:#fff;font-family:var(--body);font-weight:700}
 .r5{background:var(--simple);font-family:var(--type)}
-.hero{font-size:clamp(40px,10.5vw,92px);text-align:center;margin:10px 0 18px;font-weight:400}
+.hero{font-size:clamp(28px,8.4vw,92px);text-align:center;margin:10px 0 18px;font-weight:400;white-space:nowrap}
 
 /* paper scraps */
 .s{position:relative;filter:drop-shadow(3px 4px 0 rgba(0,0,0,.35));transform:rotate(var(--r,0deg))}
@@ -81,7 +81,8 @@ h1,h2,h3,p{margin:0}
 .stars{margin-top:auto;font-size:26px;letter-spacing:3px;color:var(--ink)}
 .stars .off{opacity:.22}
 .lock{filter:grayscale(.9) brightness(.82)}
-.seal{position:absolute;z-index:4;left:-6px;right:-6px;top:46%;background:rgba(255,250,190,.92);font-family:var(--type);letter-spacing:.25em;text-align:center;padding:4px 0;transform:rotate(-5deg);border:2px dashed var(--ink);font-size:14px}
+.seal{position:absolute;z-index:4;left:12px;bottom:12px;background:rgba(255,250,190,.95);color:var(--ink);font-family:var(--type);letter-spacing:.25em;text-align:center;padding:4px 14px;transform:rotate(-4deg);border:2px dashed var(--ink);font-size:14px}
+.boss .seal{left:auto;right:18px;bottom:auto;top:50%;transform:translateY(-50%) rotate(-4deg)}
 .boss{grid-column:1/-1}
 .boss .torn{min-height:0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .boss .lname{font-family:var(--display);font-size:clamp(26px,5vw,44px);color:#fff}
@@ -163,7 +164,7 @@ h1,h2,h3,p{margin:0}
 .review .why{font-size:16px;margin-top:4px}
 
 /* cheat overlay */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.66);display:none;overflow:auto;padding:22px 16px;z-index:20}
+.ov{position:fixed;inset:0;background-color:#11392e;background-image:linear-gradient(var(--mat-line) 1px,transparent 1px),linear-gradient(90deg,var(--mat-line) 1px,transparent 1px);background-size:48px 48px;display:none;overflow:auto;padding:22px 16px;z-index:20}
 .ov.open{display:block}
 .ov .in{max-width:760px;margin:0 auto}
 .cg{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:18px 0}
@@ -311,7 +312,11 @@ const fresh=()=>({passed:[0,0,0,0,0].map(()=>false),stars:[0,0,0,0,0],pts:[0,0,0
 let S=fresh();
 try{const r=localStorage.getItem(KEY);if(r){const p=JSON.parse(r);if(p&&p.passed&&p.boss)S=p}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-const total=()=>S.pts.reduce((a,b)=>a+b,0)+S.boss.best;
+const banked=()=>S.pts.reduce((a,b)=>a+b,0)+S.boss.best;
+function total(){
+  if(G&&V.view==="quiz"){const prev=G.boss?S.boss.best:S.pts[G.l];return banked()+Math.max(0,G.pts-prev)}
+  return banked();
+}
 let V={view:"board",arg:null},G=null;
 const cur=()=>G.items[G.i];
 
