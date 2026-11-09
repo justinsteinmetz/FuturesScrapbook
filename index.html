@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Futures Scrapbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Atkinson+Hyperlegible:wght@400;700&family=Permanent+Marker&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: a cutting-mat desk. Every panel is a torn scrap of paper, taped down. */
+  --mat:#1b5646; --mat-line:rgba(255,255,255,.08);
+  --ink:#14120e; --paper:#f4f0e6;
+  --will:#9ec1ff; --going:#ff9ec7; --prog:#ffe066; --simple:#ffa56b;
+  --ok:#2fbf71; --no:#ff4d4d;
+  --display:'Abril Fatface','Times New Roman',serif;
+  --type:'Special Elite','Courier New',monospace;
+  --body:'Atkinson Hyperlegible',system-ui,sans-serif;
+  --marker:'Permanent Marker','Comic Sans MS',cursive;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--mat)}
+body{margin:0;min-height:100vh;background-color:var(--mat);
+  background-image:linear-gradient(var(--mat-line) 1px,transparent 1px),linear-gradient(90deg,var(--mat-line) 1px,transparent 1px),radial-gradient(ellipse at 50% 0,rgba(255,255,255,.07),transparent 60%);
+  background-size:48px 48px,48px 48px,100% 100%;
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.45}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:4px solid #fff;outline-offset:3px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px 60px}
+h1,h2,h3,p{margin:0}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;max-width:980px;margin:0 auto;flex-wrap:wrap}
+.wm{font-size:20px}
+.tr{display:flex;gap:12px;align-items:center}
+.chip{font-family:var(--type);background:var(--paper);padding:6px 12px;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);transform:rotate(-1.5deg)}
+
+/* ransom letters */
+.rl{display:inline-block;padding:.02em .13em;margin:0 2px 4px;line-height:1.05;border:2px solid var(--ink)}
+.sp{display:inline-block;width:.4em}
+.r0{background:#fff;font-family:var(--display)}
+.r1{background:var(--ink);color:#fff;font-family:var(--type)}
+.r2{background:var(--going);font-family:var(--marker)}
+.r3{background:var(--prog);font-family:var(--display)}
+.r4{background:#3f6bff;color:#fff;font-family:var(--body);font-weight:700}
+.r5{background:var(--simple);font-family:var(--type)}
+.hero{font-size:clamp(40px,10.5vw,92px);text-align:center;margin:10px 0 18px;font-weight:400}
+
+/* paper scraps */
+.s{position:relative;filter:drop-shadow(3px 4px 0 rgba(0,0,0,.35));transform:rotate(var(--r,0deg))}
+.torn{background:var(--c,var(--paper));padding:var(--p,18px);position:relative;color:var(--ink)}
+.torn::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(0,0,0,.16) 1.1px,transparent 1.6px);background-size:7px 7px;
+  -webkit-mask-image:linear-gradient(135deg,#000,transparent 45%);mask-image:linear-gradient(135deg,#000,transparent 45%)}
+.taped::before{content:'';position:absolute;top:-10px;left:calc(50% - 38px);width:76px;height:22px;background:rgba(255,250,190,.7);transform:rotate(-4deg);z-index:2;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.ink{--c:var(--ink)}
+.ink .torn,.torn.dark{color:#fff}
+
+/* buttons */
+.btn{font-family:var(--marker);font-size:20px;background:var(--prog);color:var(--ink);border:3px solid var(--ink);padding:10px 20px;box-shadow:4px 4px 0 var(--ink);transform:rotate(-1deg);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-1px,-1px) rotate(-1deg);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px) rotate(-1deg);box-shadow:1px 1px 0 var(--ink)}
+.btn.ghost{background:var(--paper)}
+.btn.sm{font-size:15px;padding:6px 12px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.center{justify-content:center}
+
+/* board */
+.sub{max-width:560px;margin:0 auto 28px}
+.sub .torn{font-family:var(--type);text-align:center;font-size:18px}
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:30px 24px;padding:8px 4px 20px}
+.lvl{position:relative;background:none;border:0;padding:0;text-align:left;width:100%;transition:transform .15s}
+.lvl:hover:not([disabled]){transform:translateY(-4px) rotate(.6deg)}
+.lvl .torn{min-height:176px;display:flex;flex-direction:column;gap:4px}
+.num{position:absolute;top:-12px;right:-8px;z-index:3;width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--marker);display:grid;place-items:center;font-size:20px;border:3px solid var(--paper)}
+.lname{font-family:var(--marker);font-size:clamp(28px,5vw,40px);line-height:1.05;margin-top:6px}
+.lblurb{font-family:var(--type);font-size:15px}
+.stars{margin-top:auto;font-size:26px;letter-spacing:3px;color:var(--ink)}
+.stars .off{opacity:.22}
+.lock{filter:grayscale(.9) brightness(.82)}
+.seal{position:absolute;z-index:4;left:-6px;right:-6px;top:46%;background:rgba(255,250,190,.92);font-family:var(--type);letter-spacing:.25em;text-align:center;padding:4px 0;transform:rotate(-5deg);border:2px dashed var(--ink);font-size:14px}
+.boss{grid-column:1/-1}
+.boss .torn{min-height:0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.boss .lname{font-family:var(--display);font-size:clamp(26px,5vw,44px);color:#fff}
+.boss .lblurb{color:#d8d2c0}
+
+/* lesson */
+.back{margin:6px 0 20px}
+.lhead{display:flex;flex-direction:column;gap:12px}
+.bigname{font-family:var(--marker);font-size:clamp(44px,10vw,80px);line-height:1}
+.formula{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:22px;margin-top:6px}
+.fm{padding:6px 14px;border:3px solid var(--ink);font-family:var(--type);background:var(--paper);box-shadow:3px 3px 0 var(--ink)}
+.fm:nth-child(2){background:#fff;transform:rotate(-2deg)}
+.fm:nth-child(3){transform:rotate(1.5deg);background:var(--prog)}
+.jobs{display:grid;grid-template-columns:1fr 1fr;gap:26px 22px;margin-top:30px}
+.job h3{font-family:var(--marker);font-size:25px;line-height:1.1;margin-bottom:8px;font-weight:400}
+.job .ex{font-family:var(--type);font-size:18px;margin:6px 0;padding-left:12px;border-left:5px solid var(--ink)}
+.job .clue{display:inline-block;margin-top:8px;font-size:14px;background:var(--ink);color:#fff;padding:2px 10px;transform:rotate(-1deg)}
+.watch{margin-top:30px}
+.watch .bad,.watch .good{font-family:var(--type);font-size:20px;margin:4px 0}
+.watch .bad{text-decoration:line-through;text-decoration-color:var(--no);text-decoration-thickness:3px}
+.watch h3{font-family:var(--marker);font-weight:400;font-size:26px}
+.dq{counter-reset:q;display:flex;flex-direction:column;gap:14px}
+.dq .item{display:flex;gap:14px;align-items:flex-start}
+.dq .item b{font-family:var(--marker);font-size:34px;line-height:1;flex:none;background:var(--ink);color:#fff;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:400;font-size:24px}
+.pill{display:inline-block;font-family:var(--marker);padding:0 10px;border:2px solid var(--ink);margin:0 2px}
+
+/* quiz */
+.qbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 18px;color:#fff;font-family:var(--type)}
+.pips{display:flex;gap:6px;flex-wrap:wrap}
+.pip{width:26px;height:10px;background:rgba(255,255,255,.28)}
+.pip:nth-child(odd){transform:rotate(-3deg)}.pip:nth-child(even){transform:rotate(3deg)}
+.pip.ok{background:var(--ok)}.pip.no{background:var(--no)}.pip.now{background:#fff}
+.lives{display:flex;gap:6px;align-items:center}
+.life{width:34px;height:14px;background:rgba(255,250,190,.85);transform:rotate(-6deg);border:1px solid rgba(0,0,0,.3)}
+.life:nth-child(2){transform:rotate(5deg)}
+.life.gone{opacity:.18}
+.ctx{font-family:var(--type);font-size:18px}
+.sent{font-weight:700;font-size:clamp(24px,4.6vw,36px);line-height:1.25;margin:26px 0 22px;color:#fff;text-shadow:2px 2px 0 rgba(0,0,0,.35);text-wrap:balance}
+.sent.paper{color:var(--ink);text-shadow:none}
+.gap{display:inline-block;min-width:3.2em;border-bottom:5px solid #fff;text-align:center;padding:0 8px}
+.gap.ok{background:var(--ok);color:var(--ink);border-color:var(--ink)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.opt{font-weight:700;font-size:19px;background:var(--paper);border:3px solid var(--ink);padding:14px 16px;text-align:left;box-shadow:4px 4px 0 var(--ink);transform:rotate(var(--r,0deg));transition:transform .12s,box-shadow .12s}
+.opt:hover:not([disabled]){transform:translate(-1px,-2px) rotate(var(--r,0deg));box-shadow:6px 7px 0 var(--ink)}
+.opt[disabled]{cursor:default}
+.opt.right{background:#b5f0c9}.opt.wrong{background:#ffb3b3}.opt.dim{opacity:.5}
+.opt small{display:block;font-weight:400;font-family:var(--type);font-size:13px}
+.opts.four .opt:nth-child(1){background:var(--will)}
+.opts.four .opt:nth-child(2){background:var(--going)}
+.opts.four .opt:nth-child(3){background:var(--prog)}
+.opts.four .opt:nth-child(4){background:var(--simple)}
+.opts.four .opt.dim{opacity:.35}
+.opts.four .opt.wrong{outline:4px solid var(--no)}
+.opts.four .opt.right{outline:4px solid var(--ok)}
+.line{min-height:70px;display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:rgba(255,255,255,.12);border:3px dashed rgba(255,255,255,.6);margin-bottom:16px;align-items:center}
+.line.ok{border-color:var(--ok);background:rgba(47,191,113,.25)}
+.line.no{border-color:var(--no);background:rgba(255,77,77,.22)}
+.line .hint{color:rgba(255,255,255,.7);font-family:var(--type)}
+.bank{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+.tile{font-size:22px;padding:6px 14px;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);line-height:1.2;transform:rotate(var(--r,0deg))}
+.tile:hover:not([disabled]){transform:translateY(-2px) rotate(var(--r,0deg))}
+.fb{margin-top:26px}
+.fb h2{font-family:var(--marker);font-weight:400;font-size:32px;margin-bottom:4px}
+.fb p{font-size:18px}
+.fb .fix{font-family:var(--type);margin-top:8px;font-size:19px}
+.fb.good{--c:#b5f0c9}.fb.bad{--c:#ffc2c2}
+.streak{display:inline-block;background:var(--ink);color:#fff;font-family:var(--type);padding:2px 10px;margin-top:8px;font-size:15px;transform:rotate(-1deg)}
+
+/* result */
+.res{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:10px}
+.stamp{font-family:var(--marker);font-size:clamp(46px,12vw,96px);border:7px solid;padding:0 22px;transform:rotate(-5deg);display:inline-block;background:var(--paper);line-height:1.15}
+.stamp.win{color:var(--ok)}.stamp.lose{color:var(--no)}
+.bigstars{font-size:54px;letter-spacing:8px;color:#ffd23f;text-shadow:3px 3px 0 var(--ink)}
+.bigstars .off{color:rgba(255,255,255,.25)}
+.rank{font-family:var(--display);font-size:clamp(30px,7vw,52px);color:#fff}
+.stat{font-family:var(--type);color:#fff;font-size:20px}
+.review{width:100%;max-width:640px;text-align:left;display:flex;flex-direction:column;gap:16px;margin-top:12px}
+.review .fix{font-family:var(--type);font-size:18px}
+.review .why{font-size:16px;margin-top:4px}
+
+/* cheat overlay */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.66);display:none;overflow:auto;padding:22px 16px;z-index:20}
+.ov.open{display:block}
+.ov .in{max-width:760px;margin:0 auto}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:18px 0}
+.cg h3{font-family:var(--marker);font-weight:400;font-size:28px;line-height:1}
+.cg p{font-size:16px;margin-top:6px}
+.cg .ex{font-family:var(--type);font-size:16px;margin-top:6px}
+
+.conf{position:fixed;top:-24px;width:10px;height:16px;z-index:30;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(720deg)}}
+
+@media (max-width:700px){
+  .board{grid-template-columns:repeat(2,1fr);gap:26px 16px}
+  .jobs,.cg{grid-template-columns:1fr}
+}
+@media (max-width:460px){
+  .board{grid-template-columns:1fr}
+  .lvl .torn{min-height:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div id="head"></div>
+<main class="wrap" id="app"></main>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Cheat scrap">
+  <div class="in">
+    <div class="row" style="margin-top:0;justify-content:space-between">
+      <h2 style="font-family:var(--display);font-weight:400;color:#fff;font-size:40px">Cheat scrap</h2>
+      <button class="btn" data-a="closecheat">Close</button>
+    </div>
+    <div class="cg">
+      <div class="s taped" style="--r:-1.5deg"><div class="torn" style="--c:var(--will)"><h3>will</h3><p>Deciding now, offers, promises, opinions.</p><p class="ex">I'll get it! / I think it will rain.</p></div></div>
+      <div class="s taped" style="--r:1.2deg"><div class="torn" style="--c:var(--going)"><h3>going to</h3><p>Plans you made earlier. Predictions you can see coming.</p><p class="ex">I'm going to learn guitar. / Look out! It's going to fall.</p></div></div>
+      <div class="s taped" style="--r:1deg"><div class="torn" style="--c:var(--prog)"><h3>present progressive</h3><p>Fixed arrangements with a time.</p><p class="ex">We're flying to Vienna on Saturday.</p></div></div>
+      <div class="s taped" style="--r:-1deg"><div class="torn" style="--c:var(--simple)"><h3>present simple</h3><p>Timetables and schedules.</p><p class="ex">The train leaves at 18:42.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function ransom(t,seed=0){return [...t].map((c,i)=>c===' '?'<span class="sp"></span>':`<span class="rl r${(i*5+seed)%6}" style="transform:rotate(${((i*37+seed*11)%9)-4}deg)">${esc(c)}</span>`).join('')}
+function scrap(inner,o={}){return `<div class="s ${o.cls||''}" style="--r:${o.r||0}deg"><div class="torn ${o.dark?'dark':''}" style="--c:${o.c||'var(--paper)'};--p:${o.p||18}px">${inner}</div></div>`}
+function stars(n){return [1,2,3].map(i=>`<span class="${i<=n?'':'off'}">★</span>`).join('')}
+
+/* ---------- content ---------- */
+const FORMS=["will","going to","present progressive","present simple"];
+const LEVELS=[
+{name:"will",col:"var(--will)",blurb:"decisions, offers, opinions",
+ formula:["will","+","verb"],
+ jobs:[
+  {h:"Deciding right now",ex:["The phone is ringing. I'll get it!"],clue:"just now, suddenly"},
+  {h:"Offers and promises",ex:["I'll carry that for you.","I won't tell anyone."],clue:"offer, promise"},
+  {h:"Opinions about the future",ex:["I think it will be sunny.","She'll probably win."],clue:"I think, probably, maybe"}],
+ watch:{bad:"I will to help you.",good:"I will help you.",note:"No 'to' after will, and no -s either: she will arrive."},
+ items:[
+  {t:"mc",ctx:"Mr Brandt asks: 'Can someone open the window?'",q:"Yes, I ___ the window, Mr Brandt!",o:["will open","am opening","open"],a:0,why:"You decide at the moment of speaking. Offers use will."},
+  {t:"mc",ctx:"Your friend is afraid you will share her secret.",q:"Tomorrow, next week, ever: I ___ anyone your secret. Promise.",o:["won't tell","didn't tell","am not tell"],a:0,why:"A promise about the future uses will (won't = will not)."},
+  {t:"mc",ctx:"Who will win the match? You are not sure. It is only your opinion.",q:"I think Brazil ___ the match.",o:["will win","is winning","wins"],a:0,why:"'I think' + an opinion about the future: will."},
+  {t:"mc",ctx:"Your friend is nervous before a test.",q:"Don't worry. You ___ fine.",o:["will be","are being","going be"],a:0,why:"Reassurance is an opinion about the future: will."},
+  {t:"spot",ctx:"Which sentence has a mistake?",o:["I will to help you.","She will help us.","They won't come."],a:0,why:"After will, use the verb without 'to': I will help you."},
+  {t:"spot",ctx:"Which sentence has a mistake?",o:["Will you help me?","She will arrives at six.","I won't be late."],a:1,why:"No -s after will: She will arrive at six."}
+ ]},
+{name:"going to",col:"var(--going)",blurb:"plans and things you can see coming",
+ formula:["am / is / are","going to","verb"],
+ jobs:[
+  {h:"A plan you made before you spoke",ex:["I'm going to learn the guitar. I signed up last week."],clue:"already decided"},
+  {h:"A prediction you can see coming",ex:["Look out! That cup is going to fall."],clue:"evidence right now: clouds, a wobbling cup"}],
+ watch:{bad:"She going to win.",good:"She's going to win.",note:"Always put am, is or are before going to. You will hear 'gonna' in songs. In writing, use going to."},
+ items:[
+  {t:"mc",ctx:"Mia chose her subjects last year and has already applied.",q:"I ___ biology at university.",o:["am going to study","will study","studies"],a:0,why:"The decision was made before she spoke: going to."},
+  {t:"mc",ctx:"Black clouds cover the whole sky. Everyone can see them.",q:"Look at those clouds! It ___ any minute.",o:["is going to rain","will rain","is rain"],a:0,why:"You can see the evidence right now: going to."},
+  {t:"mc",ctx:"A car is rolling down the hill. The driver is not inside.",q:"Watch out! It ___ into the wall!",o:["is going to crash","will crash","crashes"],a:0,why:"The evidence is in front of your eyes: going to."},
+  {t:"mc",ctx:"You bought the paint yesterday. You decided last week.",q:"This weekend we ___ the kitchen.",o:["are going to paint","will paint","paints"],a:0,why:"The plan already existed: going to."},
+  {t:"spot",ctx:"Which sentence has a mistake?",o:["I'm going to visit my gran tomorrow.","She going to be a doctor.","We aren't going to stay long."],a:1,why:"She's going to be a doctor. You need am, is or are before going to."},
+  {t:"spot",ctx:"Which sentence has a mistake?",o:["Are you going to eat that?","He's going to plays football.","I'm not going to go."],a:1,why:"After going to, use the base verb: He's going to play football."}
+ ]},
+{name:"present progressive",col:"var(--prog)",blurb:"fixed arrangements with a time",
+ formula:["am / is / are","verb-ing","+ time"],
+ jobs:[
+  {h:"Arrangements with a time",ex:["I'm meeting Lena at five.","We're flying to Vienna on Saturday."],clue:"a time, a place, a person, tickets booked"},
+  {h:"Questions about plans",ex:["Are you doing anything tonight?"],clue:"Are you ...ing?"}],
+ watch:{bad:"I meeting Lena at five.",good:"I'm meeting Lena at five.",note:"Add a future time, or it sounds like right now. Honest warning: going to and the present progressive often both work for plans. This game only uses situations where one is clearly best."},
+ items:[
+  {t:"mc",ctx:"Your dentist has booked you in: Friday, 4:30 pm.",q:"I ___ the dentist on Friday at 4:30.",o:["am seeing","see","saw"],a:0,why:"Fixed arrangement with a time and another person: present progressive."},
+  {t:"mc",ctx:"Flights booked, hotel paid, suitcases ready.",q:"We ___ to Vienna on Saturday.",o:["are flying","flew","flies"],a:0,why:"Everything is booked and confirmed: present progressive."},
+  {t:"mc",ctx:"A friend wants to know if you are free this evening.",q:"___ you doing anything tonight?",o:["Are","Do","Will"],a:0,why:"Question form: Are + you + verb-ing."},
+  {t:"spot",ctx:"Which sentence has a mistake?",o:["I'm meeting Lena at five.","She is coming to dinner tonight.","They are play tennis on Sunday."],a:2,why:"They are playing tennis on Sunday. Don't forget -ing."},
+  {t:"mc",ctx:"Dad has already bought the tickets for Saturday's match.",q:"We ___ the match at the stadium on Saturday.",o:["are watching","watching","will watched"],a:0,why:"Tickets bought, day fixed: am / is / are + verb-ing."},
+  {t:"mc",ctx:"Hana asks: 'Are you free on Saturday?' Tom has an appointment.",q:"No, I ___ my cousins at the airport at noon.",o:["am meeting","meet","met"],a:0,why:"A fixed arrangement with a place and a time: present progressive."}
+ ]},
+{name:"present simple",col:"var(--simple)",blurb:"timetables and schedules",
+ formula:["verb","(+ s)","+ time"],
+ jobs:[
+  {h:"Timetables and schedules",ex:["The train leaves at 18:42.","School starts at 8:00 on Monday."],clue:"trains, buses, films, lessons, opening hours"},
+  {h:"Questions about the schedule",ex:["What time does the museum open?"],clue:"does + verb"}],
+ watch:{bad:"The train leave at 18:42.",good:"The train leaves at 18:42.",note:"he / she / it + s: leaves, starts, opens. Plural things stay plain: lessons start."},
+ items:[
+  {t:"mc",ctx:"You are reading the station board.",q:"The train ___ at 18:42.",o:["leaves","leave","leaving"],a:0,why:"A timetable event: present simple. The train = it, so add -s."},
+  {t:"mc",ctx:"Your school timetable is on the wall.",q:"Lessons ___ at 8:00 on Monday.",o:["start","starts","are start"],a:0,why:"Lessons is plural, so no -s: lessons start."},
+  {t:"mc",ctx:"The cinema programme is open on your phone.",q:"The film ___ at 7. Don't be late!",o:["begins","begin","beginning"],a:0,why:"Programme times use present simple. The film = it: begins."},
+  {t:"mc",ctx:"Your family is checking the flight details.",q:"Our flight ___ at 06:15 tomorrow, so we need to get up early.",o:["departs","depart","is depart"],a:0,why:"A scheduled flight is a timetable event: present simple + s."},
+  {t:"spot",ctx:"Which sentence has a mistake?",o:["The bus leaves at ten.","The lesson finish at three.","The shop opens at nine."],a:1,why:"The lesson finishes at three. he / she / it + s."},
+  {t:"mc",ctx:"At the bus stop, you check the timetable.",q:"What time ___ the next bus leave?",o:["does","do","has"],a:0,why:"Questions about schedules use does + base verb."}
+ ]},
+{name:"the decider",col:"var(--paper)",blurb:"all four forms mixed together",
+ decider:true,
+ jobs:[
+  {q:"Is it on a timetable or schedule?",ans:"present simple",col:"var(--simple)"},
+  {q:"Is it a fixed arrangement with a time and a person?",ans:"present progressive",col:"var(--prog)"},
+  {q:"Did you decide before you spoke, or can you see the evidence now?",ans:"going to",col:"var(--going)"},
+  {q:"Are you deciding now, offering, promising or giving an opinion?",ans:"will",col:"var(--will)"}],
+ items:[
+  {t:"sort",ctx:"The doorbell has just rung. You are in the kitchen.",q:"I'll get it!",a:0,why:"Decided right now: will."},
+  {t:"sort",ctx:"Black clouds cover the sky.",q:"It's going to pour!",a:1,why:"You can see the evidence: going to."},
+  {t:"sort",ctx:"The station display.",q:"The 9:15 train to Vienna leaves from platform 4.",a:3,why:"A timetable: present simple."},
+  {t:"sort",ctx:"Grandma has confirmed: Saturday, 7 pm, her flat.",q:"We're having dinner with Grandma on Saturday at 7.",a:2,why:"Fixed arrangement with a time and a person: present progressive."},
+  {t:"sort",ctx:"Lena made up her mind last month. No class booked yet, no date.",q:"I'm going to learn the guitar.",a:1,why:"An earlier decision, no arrangement yet: going to."},
+  {t:"sort",ctx:"Your opinion about the year 2050.",q:"I think robots will clean our houses.",a:0,why:"I think + an opinion about the future: will."},
+  {t:"sort",ctx:"You are saying sorry to a friend.",q:"I promise I'll text you when I land.",a:0,why:"A promise: will."},
+  {t:"sort",ctx:"The opening hours are on the shop door.",q:"The shop closes at six on Saturdays.",a:3,why:"Opening hours are a schedule: present simple."}
+ ]}
+];
+const BOSS=[
+ {t:"build",ctx:"Someone has dropped their books. You decide in a second.",tiles:["I'll","to","carry","your","bag"],ans:"I'll carry your bag",why:"A spontaneous offer: will + verb. No 'to'."},
+ {t:"sort",ctx:"Your friend's phone is dead. She asks you to ring her mum. You answer at once.",q:"No problem, I'll call her now.",a:0,why:"An instant decision: will."},
+ {t:"build",ctx:"It is in your diary: Friday, 4 pm.",tiles:["I'm","seeing","the","dentist","on","Friday","will"],ans:"I'm seeing the dentist on Friday",why:"A fixed arrangement: am + verb-ing + time."},
+ {t:"sort",ctx:"The scoreboard says 5-0 with two minutes left.",q:"They're going to win!",a:1,why:"You can see the evidence: going to."},
+ {t:"spot",ctx:"Which sentence has a mistake?",o:["The film starts at eight.","We're going to goes to Spain.","I think it will snow."],a:1,why:"After going to, use the base verb: We're going to go to Spain."},
+ {t:"build",ctx:"You booked the trip to Rome last month.",tiles:["We're","going","to","visit","Rome","will"],ans:"We're going to visit Rome",why:"A plan made earlier: am / are + going to + verb."},
+ {t:"sort",ctx:"The Sports Day timetable is on the school website.",q:"The race starts at 10:30.",a:3,why:"A schedule: present simple."},
+ {t:"mc",ctx:"You have no plan. You are just giving your opinion.",q:"In 2060, I think people ___ on Mars.",o:["will live","are living","lives"],a:0,why:"I think + opinion about the future: will."},
+ {t:"spot",ctx:"Which sentence has a mistake?",o:["She's meeting us at six.","He's going to be late.","They will to win."],a:2,why:"No 'to' after will: They will win."},
+ {t:"mc",ctx:"The ferry timetable is on the harbour wall.",q:"The ferry ___ at 07:45 sharp.",o:["leaves","leave","leaving"],a:0,why:"A timetable event: present simple + s."}
+];
+
+/* ---------- state ---------- */
+const KEY="futuresScrapbook1";
+const fresh=()=>({passed:[0,0,0,0,0].map(()=>false),stars:[0,0,0,0,0],pts:[0,0,0,0,0],boss:{done:false,best:0,lives:0}});
+let S=fresh();
+try{const r=localStorage.getItem(KEY);if(r){const p=JSON.parse(r);if(p&&p.passed&&p.boss)S=p}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const total=()=>S.pts.reduce((a,b)=>a+b,0)+S.boss.best;
+let V={view:"board",arg:null},G=null;
+const cur=()=>G.items[G.i];
+
+function go(v){const [view,arg]=v.split(":");V={view,arg:arg===undefined?null:+arg};render();window.scrollTo(0,0)}
+
+/* ---------- torn edges ---------- */
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function tear(){
+  let k=1;
+  document.querySelectorAll(".torn").forEach(el=>{
+    const rnd=mulberry(k++*9973),n=18,p=[],j=()=>(rnd()*5).toFixed(1);
+    for(let i=0;i<=n;i++)p.push(`${(i/n*100).toFixed(1)}% ${j()}px`);
+    for(let i=1;i<=n;i++)p.push(`calc(100% - ${j()}px) ${(i/n*100).toFixed(1)}%`);
+    for(let i=n-1;i>=0;i--)p.push(`${(i/n*100).toFixed(1)}% calc(100% - ${j()}px)`);
+    for(let i=n-1;i>=1;i--)p.push(`${j()}px ${(i/n*100).toFixed(1)}%`);
+    el.style.clipPath=`polygon(${p.join(",")})`;
+  });
+}
+
+/* ---------- views ---------- */
+function head(){
+  const t=G&&V.view==="quiz"?"":"";
+  $("#head").innerHTML=`<div class="top"><div class="wm">${ransom("FUTURES",2)}</div><div class="tr"><button class="btn ghost sm" data-a="cheat">Cheat scrap</button><div class="chip">★ ${total()} pts</div></div></div>`;
+}
+function viewBoard(){
+  const rot=[-2,1.5,-1,2,-1.5];
+  const tiles=LEVELS.map((L,i)=>{
+    const locked=i>0&&!S.passed[i-1];
+    return `<button class="lvl ${locked?"lock":""}" data-a="go" data-v="lesson:${i}" ${locked?"disabled":""} aria-label="Scrap ${i+1}: ${esc(L.name)}${locked?", sealed":""}">
+      <span class="num">${i+1}</span>
+      ${scrap(`<div class="lname">${esc(L.name)}</div><div class="lblurb">${esc(L.blurb)}</div><div class="stars" aria-label="${S.stars[i]} of 3 stars">${stars(S.stars[i])}</div>`,{c:L.col,r:rot[i],cls:locked?"":"taped"})}
+      ${locked?'<span class="seal">SEALED</span>':""}
+    </button>`}).join("");
+  const bl=!S.passed.every(Boolean);
+  const boss=`<button class="lvl boss ${bl?"lock":""}" data-a="go" data-v="${bl?"board":"boss"}" ${bl?"disabled":""}>
+      ${scrap(`<div><div class="lname">The Ransom Note</div><div class="lblurb">${S.boss.done?"Beaten. Best run: "+S.boss.best+" pts. Go again?":"Boss round. 10 mixed questions, 3 tape strips of life."}</div></div><div class="stars">${stars(S.boss.done?(S.boss.lives>=3?3:S.boss.lives===2?2:1):0)}</div>`,{c:"var(--ink)",r:-.6,dark:true})}
+      ${bl?'<span class="seal">SEALED</span>':""}
+    </button>`;
+  return `<h1 class="hero">${ransom("FUTURES",0)}<br>${ransom("SCRAPBOOK",3)}</h1>
+    <div class="sub">${scrap(`Paste in all four ways of talking about tomorrow. Beat each scrap to unlock the next. Then face the boss.`,{r:-1,cls:"taped"})}</div>
+    <div class="board">${tiles}${boss}</div>`;
+}
+function viewLesson(i){
+  const L=LEVELS[i];
+  let body;
+  if(L.decider){
+    body=`<div class="lhead">${scrap(`<div class="bigname">${esc(L.name)}</div><p style="font-family:var(--type);font-size:19px;margin-top:6px">Ask yourself these four questions, in this order. The first yes wins.</p>`,{c:L.col,r:-1,cls:"taped"})}</div>
+    <div class="dq" style="margin-top:30px">${L.jobs.map((j,k)=>`<div class="item"><b>${k+1}</b>${scrap(`<p style="font-weight:700;font-size:20px">${esc(j.q)}</p><p style="margin-top:6px">Yes: <span class="pill" style="background:${j.col}">${esc(j.ans)}</span></p>`,{c:"var(--paper)",r:k%2?1:-1,p:14})}</div>`).join("")}</div>`;
+  } else {
+    body=`<div class="lhead">${scrap(`<div class="bigname">${esc(L.name)}</div><div class="formula">${L.formula.map(f=>`<span class="fm">${esc(f)}</span>`).join("")}</div>`,{c:L.col,r:-1,cls:"taped",p:22})}</div>
+    <div class="jobs">${L.jobs.map((j,k)=>`<div class="job">${scrap(`<h3>${esc(j.h)}</h3>${j.ex.map(e=>`<div class="ex">${esc(e)}</div>`).join("")}<span class="clue">${esc(j.clue)}</span>`,{r:k%2?1.2:-1.2,cls:"taped"})}</div>`).join("")}</div>
+    <div class="watch">${scrap(`<h3>Watch out</h3><div class="bad">${esc(L.watch.bad)}</div><div class="good">${esc(L.watch.good)}</div><p style="margin-top:8px">${esc(L.watch.note)}</p>`,{c:"#fff6c9",r:.8})}</div>`;
+  }
+  return `<button class="btn ghost back sm" data-a="go" data-v="board">← Board</button>${body}
+    <div class="row"><button class="btn" data-a="start" data-v="${i}">Start the challenge →</button></div>`;
+}
+function filled(it){return it.q.replace("___",it.o[it.a])}
+function viewQuiz(){
+  const it=cur(),n=G.items.length,L=G.boss?null:LEVELS[G.l];
+  const col=G.boss?"var(--paper)":L.col;
+  const pips=G.items.map((_,k)=>`<span class="pip ${k<G.res.length?(G.res[k]?"ok":"no"):(k===G.i?"now":"")}"></span>`).join("");
+  const lives=G.boss?`<div class="lives" aria-label="${G.lives} lives left">${[0,1,2].map(k=>`<span class="life ${k<G.lives?"":"gone"}"></span>`).join("")}</div>`:"";
+  let h=`<div class="qbar"><div>${G.boss?"The Ransom Note":esc(L.name)} · ${G.i+1} of ${n}</div><div class="pips">${pips}</div>${lives}<div>run: ${G.pts} pts</div></div>`;
+  h+=scrap(`<span class="ctx">${esc(it.ctx)}</span>`,{c:col,r:-.8,p:14,cls:"taped"});
+  if(it.t==="mc"){
+    const parts=it.q.split("___");
+    const gap=G.done?`<span class="gap ok">${esc(it.o[it.a])}</span>`:`<span class="gap">&nbsp;</span>`;
+    h+=`<p class="sent">${esc(parts[0])}${gap}${esc(parts[1])}</p>`;
+    h+=optsHtml(G.o.map(o=>o.x),it);
+  } else if(it.t==="spot"){
+    h+=`<p class="sent">&nbsp;</p>`+optsHtml(G.o.map(o=>o.x),it);
+  } else if(it.t==="sort"){
+    h+=`<p class="sent">“${esc(it.q)}”</p><div class="opts four">${FORMS.map((f,k)=>{
+      let c="";if(G.done){c=k===it.a?"right":(k===G.pick?"wrong":"dim")}
+      return `<button class="opt ${c}" data-a="ans" data-v="${k}" style="--r:${[-1,1,-.6,.8][k]}deg" ${G.done?"disabled":""}>${f}</button>`}).join("")}</div>`;
+  } else if(it.t==="build"){
+    const cls=G.done?(G.last?"ok":"no"):"";
+    h+=`<p class="sent">Build the sentence. Some tiles are decoys.</p>
+    <div class="line ${cls}">${G.line.length?G.line.map(t=>tileBtn(t,"untile")).join(""):'<span class="hint">tap the tiles below, in order</span>'}</div>
+    <div class="bank">${G.bank.filter(t=>!G.line.find(l=>l.id===t.id)).map(t=>tileBtn(t,"tile")).join("")}</div>
+    ${G.done?"":`<div class="row" style="margin-top:14px"><button class="btn" data-a="check" ${G.line.length?"":"disabled"}>Check it</button></div>`}`;
+  }
+  if(G.done){
+    const good=G.last,heads=good?["Clean cut!","Pasted!","Spot on!","Sticky!"]:["Not quite.","Torn edge.","Close, no."];
+    let fix="";
+    if(!good){
+      if(it.t==="build")fix=`<div class="fix">Answer: ${esc(it.ans)}</div>`;
+      else if(it.t==="mc")fix=`<div class="fix">Answer: ${esc(filled(it))}</div>`;
+      else if(it.t==="spot")fix=`<div class="fix">The mistake: ${esc(it.o[it.a])}</div>`;
+      else fix=`<div class="fix">Answer: ${FORMS[it.a]}</div>`;
+    }
+    const last=G.i+1>=n||(G.boss&&G.lives<=0);
+    h+=`<div class="fb" id="fb">${scrap(`<h2>${heads[G.i%heads.length]}</h2><p>${esc(it.why)}</p>${fix}${good&&G.streak>=3?`<span class="streak">streak ×${G.streak} · +5 bonus</span>`:""}`,{c:good?"#b5f0c9":"#ffc2c2",r:.6,cls:"taped"})}
+    <div class="row"><button class="btn" data-a="next">${last?"See the result":"Next →"}</button></div></div>`;
+  }
+  return h;
+}
+function optsHtml(list,it){
+  return `<div class="opts">${list.map((x,k)=>{
+    let c="";if(G.done){c=G.o[k].ok?"right":(k===G.pick?"wrong":"dim")}
+    return `<button class="opt ${c}" data-a="ans" data-v="${k}" style="--r:${[-.8,.7,-.5,.6][k%4]}deg" ${G.done?"disabled":""}>${esc(x)}</button>`}).join("")}</div>`;
+}
+function tileBtn(t,a){
+  const d=G.done?"disabled":"";
+  return `<button class="tile rl r${(t.id*2+1)%6}" data-a="${a}" data-v="${t.id}" style="--r:${((t.id*37)%7)-3}deg" ${d}>${esc(t.w)}</button>`;
+}
+function fixText(it){
+  if(it.t==="build")return it.ans;
+  if(it.t==="mc")return filled(it);
+  if(it.t==="spot")return "✗ "+it.o[it.a];
+  return `“${it.q}” = ${FORMS[it.a]}`;
+}
+function viewResult(){
+  const R=G.R,n=G.items.length;
+  let h=`<div class="res">`;
+  if(G.boss){
+    h+=`<div class="stamp ${R.pass?"win":"lose"}">${R.pass?"NOTE COMPLETE":"TORN UP"}</div>`;
+    if(R.pass)h+=`<div class="rank">${R.rank}</div>`;
+  } else {
+    h+=`<div class="stamp ${R.pass?"win":"lose"}">${R.pass?"PASTED!":"NOT YET"}</div>`;
+    if(R.pass)h+=`<div class="bigstars">${stars(R.stars)}</div>`;
+  }
+  h+=`<div class="stat">${G.ok} of ${n} right · ${G.pts} pts${R.pass?"":G.boss?" · out of tape":" · you need "+R.need+" to pass"}</div>`;
+  if(G.miss.length){
+    h+=`<div class="review"><h2 style="font-family:var(--marker);font-weight:400;color:#fff;font-size:28px">Worth another look</h2>${G.miss.map((m,k)=>scrap(`<div class="fix">${esc(fixText(m))}</div><p class="why">${esc(m.why)}</p>`,{c:"var(--paper)",r:k%2?.7:-.7,p:14})).join("")}</div>`;
+  }
+  h+=`<div class="row center">`;
+  if(G.boss){
+    h+=`<button class="btn" data-a="start" data-v="boss">${R.pass?"Play it again":"Try again"}</button><button class="btn ghost" data-a="go" data-v="board">Back to the board</button>`;
+  } else if(R.pass){
+    h+=G.l<4?`<button class="btn" data-a="go" data-v="lesson:${G.l+1}">Next scrap →</button>`:`<button class="btn" data-a="go" data-v="board">Face the boss →</button>`;
+    h+=`<button class="btn ghost" data-a="start" data-v="${G.l}">Replay for more stars</button>`;
+  } else {
+    h+=`<button class="btn" data-a="start" data-v="${G.l}">Try again</button><button class="btn ghost" data-a="go" data-v="lesson:${G.l}">Re-read the scrap</button>`;
+  }
+  return h+`</div></div>`;
+}
+
+/* ---------- engine ---------- */
+function start(l){
+  const boss=l==="boss";
+  G={l:boss?null:+l,boss,items:shuf(boss?BOSS:LEVELS[+l].items),i:0,ok:0,streak:0,pts:0,lives:3,res:[],miss:[],done:false};
+  prep();V={view:"quiz",arg:null};render();window.scrollTo(0,0);
+}
+function prep(){
+  const it=cur();G.done=false;G.pick=null;G.last=null;
+  if(it.t==="mc"||it.t==="spot")G.o=shuf(it.o.map((x,k)=>({x,ok:k===it.a})));
+  if(it.t==="build"){G.bank=shuf(it.tiles.map((w,k)=>({w,id:k})));G.line=[]}
+}
+function settle(ok){
+  const it=cur();G.done=true;G.last=ok;G.res.push(ok);
+  if(ok){G.ok++;G.streak++;G.pts+=(G.boss?20:10)+(G.streak>=3?5:0)}
+  else{G.streak=0;if(G.boss)G.lives--;G.miss.push(it)}
+}
+function answer(k){
+  if(G.done)return;const it=cur();
+  G.pick=k;
+  settle(it.t==="sort"?k===it.a:G.o[k].ok);
+  render();
+}
+function next(){
+  const n=G.items.length;
+  if(G.i+1>=n||(G.boss&&G.lives<=0)){finish();return}
+  G.i++;prep();render();window.scrollTo(0,0);
+}
+function finish(){
+  const n=G.items.length;let R={};
+  if(G.boss){
+    R.pass=G.lives>0;
+    R.rank=G.ok===10?"Future-proof":G.ok===9?"Scrapbook pro":"Sharp scissors";
+    if(R.pass){S.boss.done=true;S.boss.best=Math.max(S.boss.best,G.pts);S.boss.lives=Math.max(S.boss.lives,G.lives)}
+  } else {
+    R.need=Math.ceil(n*.6);R.pass=G.ok>=R.need;
+    if(R.pass){
+      R.stars=G.ok===n?3:G.ok>=n-1?2:1;
+      S.passed[G.l]=true;S.stars[G.l]=Math.max(S.stars[G.l],R.stars);S.pts[G.l]=Math.max(S.pts[G.l],G.pts);
+    }
+  }
+  G.R=R;save();V={view:"result",arg:null};render();window.scrollTo(0,0);
+  if(G.boss&&R.pass)confetti();
+}
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const cols=["#9ec1ff","#ff9ec7","#ffe066","#ffa56b","#f4f0e6","#2fbf71"];
+  for(let i=0;i<70;i++){
+    const d=document.createElement("div");d.className="conf";
+    d.style.left=Math.random()*100+"vw";d.style.background=cols[i%cols.length];
+    d.style.animationDuration=(2.2+Math.random()*2.4)+"s";d.style.animationDelay=(Math.random()*.8)+"s";
+    document.body.appendChild(d);setTimeout(()=>d.remove(),6000);
+  }
+}
+
+/* ---------- render + events ---------- */
+function render(){
+  head();
+  const a=$("#app");
+  if(V.view==="board")a.innerHTML=viewBoard();
+  else if(V.view==="lesson")a.innerHTML=viewLesson(V.arg);
+  else if(V.view==="quiz")a.innerHTML=viewQuiz();
+  else if(V.view==="result")a.innerHTML=viewResult();
+  else if(V.view==="boss"){start("boss");return}
+  tear();
+  const fb=$("#fb");if(fb)fb.scrollIntoView({block:"nearest"});
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]");if(!b||b.disabled)return;
+  const a=b.dataset.a,v=b.dataset.v;
+  if(a==="go")go(v);
+  else if(a==="start")start(v);
+  else if(a==="ans")answer(+v);
+  else if(a==="next")next();
+  else if(a==="tile"){const t=G.bank.find(x=>x.id===+v);if(t&&!G.done){G.line.push(t);render()}}
+  else if(a==="untile"){if(!G.done){G.line=G.line.filter(x=>x.id!==+v);render()}}
+  else if(a==="check"){if(!G.done&&G.line.length){settle(G.line.map(t=>t.w).join(" ")===cur().ans);render()}}
+  else if(a==="cheat")$("#ov").classList.add("open");
+  else if(a==="closecheat")$("#ov").classList.remove("open");
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#ov").classList.remove("open")});
+render();
+</script>
+</body>
+</html>
