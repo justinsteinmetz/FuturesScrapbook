@@ -164,7 +164,15 @@ h1,h2,h3,p{margin:0}
 .wf{margin-top:8px;font-size:16px}
 .wf b{font-family:var(--marker);font-weight:400}
 .tk{display:flex;gap:10px;align-items:center;margin-top:10px;font-weight:700;font-size:16px;min-height:44px}
-.tk input{width:26px;height:26px;flex:none;accent-color:var(--ink)}
+.tk input,.radio input{width:26px;height:26px;flex:none;accent-color:var(--ink)}
+.pc{margin:6px 0 0;padding-left:20px;font-size:15px}
+.warn{font-weight:700;color:#7a1d1d}
+fieldset.ck,fieldset.rg{border:0;padding:0;margin:8px 0 0;min-width:0}
+.ck legend{font-weight:700;font-size:16px;padding:0}
+.rg legend{padding:0}
+.rg{display:flex;flex-wrap:wrap;gap:8px}
+.rg legend{width:100%}
+.radio{display:flex;align-items:center;gap:8px;min-height:44px;background:#fff;border:3px solid var(--ink);padding:6px 12px;font-weight:700;cursor:pointer}
 .wlist{display:flex;flex-direction:column;gap:22px;margin-top:18px}
 .collage{display:grid;grid-template-columns:1fr 1fr;gap:22px;width:100%;max-width:760px;margin:10px 0;text-align:left}
 .collage .tag{font-family:var(--marker);font-size:15px;margin-bottom:4px}
@@ -239,7 +247,7 @@ h1,h2,h3,p{margin:0}
     <div class="cg">
       <div class="s taped" style="--r:-1.5deg"><div class="torn" style="--c:var(--will)"><h3>will</h3><p>Deciding now, offers, promises, guesses and opinions.</p><p class="ex">I'll get it! / I think it will rain.</p></div></div>
       <div class="s taped" style="--r:1.2deg"><div class="torn" style="--c:var(--going)"><h3>going to</h3><p>Plans made earlier. Things you can see coming.</p><p class="ex">I'm going to learn guitar. / Look out! It's going to fall.</p></div></div>
-      <div class="s taped" style="--r:1deg"><div class="torn" style="--c:var(--prog)"><h3>present progressive</h3><p>Arrangements with a time.</p><p class="ex">We're flying to Vienna on Saturday.</p></div></div>
+      <div class="s taped" style="--r:1deg"><div class="torn" style="--c:var(--prog)"><h3>present progressive</h3><p>Arrangements, often with a time.</p><p class="ex">We're flying to Vienna on Saturday.</p></div></div>
       <div class="s taped" style="--r:-1deg"><div class="torn" style="--c:var(--simple)"><h3>present simple</h3><p>Timetables and schedules.</p><p class="ex">The train leaves at 18:42.</p></div></div>
     </div>
     <div class="s taped" style="--r:.6deg"><div class="torn" style="--c:var(--paper)"><p>Often more than one form works. The choice changes the emphasis, not whether it is correct.</p></div></div>
@@ -279,11 +287,11 @@ const FORMS=["will","going to","present progressive","present simple"];
 const LEVELS=[
 /* 0 */ {name:"case files",col:"#c9f0e3",blurb:"no rules yet. Work them out.",discover:true,
  items:[
-  mc("Two friends say they will phone Sam. One of them decided earlier.","Which sentence more strongly suggests the speaker had already decided?",["I'm going to phone Sam.","I'll phone Sam."],0,"Both are grammatical. Going to leans towards an earlier decision."),
+  mc("Two friends each say they will phone Sam. One of them decided earlier.","Which sentence more strongly suggests the speaker had already decided?",["I'm going to phone Sam.","I'll phone Sam."],0,"Both are grammatical. Going to leans towards an earlier decision."),
   mc("Your friend is struggling with a heavy bag. You offer on the spot.","Which is the more natural offer?",["I'll carry that for you.","I'm going to carry that for you."],0,"Offers made as you speak usually use will."),
   mc("A cup is on the very edge of the table. It is already moving.","Which sounds more like you can see it happening?",["It's going to fall!","It will fall!"],0,"Both are possible. Going to often sounds like you can see it coming."),
   mc("No clouds, no forecast. You are only guessing.","Which is the more natural guess?",["Perhaps it'll rain tomorrow.","Perhaps it's going to rain tomorrow."],0,"A guess or opinion with 'perhaps' or 'I think' usually takes will."),
-  mc("Tom bought his ticket last week and has told everyone.","Which sounds more like a plan he made earlier?",["I'm going to see my favourite band on Saturday.","I'll see my favourite band on Saturday."],0,"Going to leans towards a plan made earlier."),
+  mc("Tom bought his ticket last week and has told everyone.","Which sentence describes a plan Tom made earlier?",["Tom is going to see his favourite band on Saturday.","Tom will see his favourite band on Saturday."],0,"Both are possible. Going to leans towards a plan made earlier."),
   mc("You are ordering in a café.","Which is the usual way to order?",["I'll have the vegetable curry, please.","I'm going to have the vegetable curry, please."],0,"Ordering and offering are classic will situations.")
  ],
  reveal:["will often fits: decisions as you speak, offers, orders, guesses and opinions","going to often fits: earlier plans, and things you can see coming","These are tendencies, not laws. Next: three more ways to talk about tomorrow."]},
@@ -297,10 +305,10 @@ const LEVELS=[
  watch:{bad:"I will to help you.",good:"I will help you.",note:"No 'to' after will, and no -s either: she will arrive."},
  items:[
   mc("Your friend is afraid you will share her secret.","Tomorrow, next week, ever: I ___ anyone your secret. Promise.",["won't tell","didn't tell","am not tell"],0,"A promise about the future: will (won't = will not)."),
-  mc("Who will win the match? You are only giving your view.","I think Brazil ___ the match.",["will win","won","winning"],0,"I think + an opinion about the future: will."),
+  mc("Who will win the match? You are only giving your view.","I think Brazil ___ the match.",["will win","won","winning"],0,"I think + an opinion about the future often takes will."),
   spot(["I will to help you.","She will help us.","They won't come."],0,"After will, use the verb without 'to': I will help you."),
   spot(["Will you help me?","She will arrives at six.","I won't be late."],1,"No -s after will: She will arrive at six."),
-  mc("Your friend is nervous before a test.","Don't worry. You ___ fine.",["will be","are being","going be"],0,"Reassurance is an opinion about the future: will."),
+  mc("Your friend is nervous before a test.","Don't worry. You ___ fine.",["will be","are being","going be"],0,"Reassurance is usually an opinion about the future, so will fits."),
   mc("Ben was heading out to play football when his mum says the bin is full. He answers: 'OK, I'll take it out.'","Why does 'I'll' fit well here?",["He decides as she asks, so it works as an offer.","He made a plan yesterday.","It is on a timetable."],0,"I'll suits a decision or offer made in the moment."),
   mc("Lena says: 'I think we'll all work from home in 2050.'","Why does 'will' fit well here?",["It is her opinion, with no evidence in front of her.","It is a fixed arrangement.","It is a school timetable."],0,"Opinions about the far future usually take will."),
   build("A friend asks who can carry the box. You offer.",["I'll","carry","it","for","you","going"],"I'll carry it for you","An offer: will + verb."),
@@ -313,41 +321,41 @@ const LEVELS=[
  jobs:[
   {h:"A plan made before you spoke",ex:["I'm going to learn the guitar. I signed up last week."],clue:"already decided"},
   {h:"Something you can see coming",ex:["Look out! That cup is going to fall."],clue:"evidence now: clouds, a wobbling cup"}],
- watch:{bad:"She going to win.",good:"She's going to win.",note:"Put am, is or are before going to. In speech you will hear 'gonna'; in writing, use going to."},
+ watch:{bad:"She going to win.",good:"She's going to win.",note:"In standard English put am, is or are before going to. You will hear 'gonna' in speech; in writing, use going to."},
  items:[
-  spot(["I'm going to visit my gran tomorrow.","She going to be a doctor.","We aren't going to stay long."],1,"She's going to be a doctor. You need am, is or are before going to."),
+  spot(["I'm going to visit my gran tomorrow.","She going to be a doctor.","We aren't going to stay long."],1,"She's going to be a doctor. In standard English going to needs am, is or are."),
   spot(["Are you going to eat that?","He's going to plays football.","I'm not going to go."],1,"After going to, use the plain verb: He's going to play football."),
-  mc("A boy is leaning far out of an upstairs window and starting to slip.","He ___ fall!",["is going to","going to","will to"],0,"Is + going to + verb. Without is it is incomplete, and will never takes 'to'."),
+  mc("A boy is leaning far out of an upstairs window and starting to slip.","He ___ fall!",["is going to","going to","will to"],0,"In standard English going to needs am / is / are before it. Will is never followed by 'to'."),
   mc("Nina has already chosen her subjects and sent in her application.","Nina ___ study biology.",["is going to","going to","are going to"],0,"Nina = she, so is going to."),
   mc("You bought the paint yesterday.","This weekend we ___ the kitchen.",["are going to paint","is going to paint","going to painting"],0,"We = are. Then going to + plain verb."),
   mc("Jonas says: 'I'm going to buy a motorbike next summer.' His friend asks: 'Since when?' Jonas answers: 'I've been saving since September.'","What does 'going to' show about Jonas's decision?",["He decided some time ago.","He is only guessing.","He has just decided."],0,"Going to often shows a decision made earlier."),
   mc("A car is rolling down a hill with no driver. A woman shouts: 'It's going to hit the wall!'","Why does going to fit well here?",["She can see it happening now.","She made a plan earlier.","It is on a timetable."],0,"Going to often fits predictions based on what you can see."),
   build("You decided last week to start running.",["I'm","going","to","start","running","will"],"I'm going to start running","A plan made earlier: am + going to + verb."),
-  mc("A friend asks about your holidays.","Mia: 'Any plans for the holidays?'\nLeo: 'Yes! We ___ camping in the mountains.'",["are going to go","go going","are go to"],0,"She asked about plans: are going to + plain verb."),
-  cor(["I'm going to learn the guitar.","She going to be late.","We're going to meeting Sam.","It's going to rain."],[1,2],{1:"She's going to be late.",2:"We're going to meet Sam."},"Going to needs am / is / are before it and a plain verb after it.")
+  mc("Mia asks Leo about his holidays.","Mia: 'Any plans for the holidays?'\nLeo: 'Yes! We ___ camping in the mountains.'",["are going to go","go going","are go to"],0,"She asked about plans: are going to + plain verb."),
+  cor(["I'm going to learn the guitar.","She going to be late.","We're going to meeting Sam.","It's going to rain."],[1,2],{1:"She's going to be late.",2:"We're going to meet Sam."},"In standard English going to needs am / is / are before it and a plain verb after it.")
  ]},
 
 /* 3 */ {name:"present progressive",col:"var(--prog)",blurb:"fixed arrangements with a time",
- formula:["am / is / are","verb-ing","+ time"],
+ formula:["am / is / are","verb-ing","(+ time)"],
  jobs:[
-  {h:"Arrangements with a time",ex:["I'm meeting Lena at five.","We're flying to Vienna on Saturday."],clue:"a time, a place, a person, tickets booked"},
+  {h:"Arrangements, often with a time",ex:["I'm meeting Lena at five.","We're flying to Vienna on Saturday."],clue:"a time, a place, a person, tickets booked"},
   {h:"Questions about plans",ex:["Are you doing anything tonight?"],clue:"Are you ...ing?"}],
- watch:{bad:"I meeting Lena at five.",good:"I'm meeting Lena at five.",note:"Add a future time, or it sounds like right now. Going to often works for the same plans: see 'more than one'."},
+ watch:{bad:"I meeting Lena at five.",good:"I'm meeting Lena at five.",note:"Usually add a time or other context (tickets booked, a place), or it can sound like right now. Where the context is clear, no time is needed. Going to often works for the same plans: see 'more than one'."},
  items:[
-  mc("Flights booked, hotel paid, suitcases ready.","We ___ to Vienna on Saturday.",["are flying","flew","flies"],0,"A booked arrangement: are + verb-ing."),
+  mc("Flights booked, hotel paid, suitcases ready.","We ___ to Vienna on Saturday.",["are flying","flew","flies"],0,"A booked arrangement: the present progressive fits."),
   mc("A friend wants to know if you are free this evening.","___ you doing anything tonight?",["Are","Do","Will"],0,"Question form: Are + you + verb-ing."),
   spot(["I'm meeting Lena at five.","She is coming to dinner tonight.","They are play tennis on Sunday."],2,"They are playing tennis on Sunday. Don't forget -ing."),
-  mc("Dad has already bought the tickets for Saturday's match.","We ___ the match at the stadium on Saturday.",["are watching","watching","will watched"],0,"Am / is / are + verb-ing."),
-  mc("Hana asks: 'Are you free on Saturday?' Tom has an appointment.","No, I ___ my cousins at the airport at noon.",["am meeting","meeting","meet"],0,"A fixed arrangement with a place and a time: am + verb-ing."),
+  mc("Dad has already bought the tickets for Saturday's match.","We ___ the match at the stadium on Saturday.",["are watching","watching","will watched"],0,"The tickets are bought, so it is arranged: am / is / are + verb-ing."),
+  mc("Hana asks Tom: 'Are you free on Saturday?' Tom has a family arrangement.","No, I ___ my cousins at the airport at noon.",["am meeting","meeting","meet"],0,"A fixed arrangement with a place and a time: am + verb-ing."),
   mc("Ana says: 'I'm seeing the dentist on Friday at 4.30.' Ben says: 'I'm going to see the dentist some day.'","Which sentence sounds as if the appointment is already fixed?",["Ana's","Ben's","Neither"],0,"A day and a time make it sound arranged. 'Some day' is only an intention."),
-  mc("Your teacher says: 'We're visiting the museum on Thursday.'","What does that sentence tell you?",["The trip is arranged, not just an idea.","The teacher is guessing.","It is a bus timetable."],0,"Present progressive + a time usually signals an arrangement."),
+  mc("Your teacher says: 'We're visiting the museum on Thursday.'","What does that sentence tell you?",["The trip is arranged, not just an idea.","The teacher is guessing.","It is a bus timetable."],0,"With a future time or clear context, the present progressive usually signals an arrangement."),
   build("Fixed: Tuesday, 6 pm, the cinema, with Lena.",["We're","seeing","a","film","on","Tuesday","will"],"We're seeing a film on Tuesday","A fixed arrangement: are + verb-ing + time."),
   mc("You are texting a friend.","'Can you come to the park at 5?'\n'Sorry, I ___ my aunt at 5. It's arranged.'",["am visiting","visiting","visit"],0,"A fixed arrangement: am + verb-ing."),
   cor(["I'm meeting Lena at five.","She is coming to dinner tonight.","They are play tennis on Sunday.","I meeting my gran tomorrow."],[2,3],{2:"They are playing tennis on Sunday.",3:"I'm meeting my gran tomorrow."},"Present progressive needs am / is / are and a verb with -ing.")
  ]},
 
 /* 4 */ {name:"present simple",col:"var(--simple)",blurb:"timetables and schedules",
- formula:["verb","(+ s)","+ time"],
+ formula:["verb","(+ s)","(+ time)"],
  jobs:[
   {h:"Timetables and schedules",ex:["The train leaves at 18:42.","School starts at 8:00 on Monday."],clue:"trains, buses, films, lessons, opening hours"},
   {h:"Questions about the schedule",ex:["What time does the museum open?"],clue:"does + verb"}],
@@ -359,7 +367,7 @@ const LEVELS=[
   spot(["The bus leaves at ten.","The lesson finish at three.","The shop opens at nine."],1,"The lesson finishes at three. he / she / it + s."),
   mc("At the bus stop, you check the timetable.","What time ___ the next bus leave?",["does","do","has"],0,"Questions about schedules use does + plain verb."),
   mc("Ana says: 'The train leaves at 8.' Ben says: 'I'm leaving at 8.'","What is the difference?",["Ana gives a timetable fact. Ben gives his own arrangement.","Ana is guessing. Ben is promising.","There is no difference in any context."],0,"A schedule belongs to the system. An arrangement belongs to the speaker."),
-  mc("A school notice says: 'The trip leaves at 7:45 from the main gate.'","Why does the notice use the present simple?",["It states an official schedule.","It is a personal plan.","It is a promise by the teacher."],0,"Official schedules use the present simple."),
+  mc("A school notice says: 'The trip leaves at 7:45 from the main gate.'","Why does the notice use the present simple?",["It states an official schedule.","It is a personal plan.","It is a promise by the teacher."],0,"Official schedules are usually in the present simple."),
   build("The cinema programme.",["The","film","starts","at","eight","going"],"The film starts at eight","A programme time: present simple + s."),
   mc("A tourist asks you about the castle.","Tourist: 'When does the castle close tomorrow?'\nYou: 'It ___ at five.'",["closes","close","is close"],0,"A schedule: it + closes."),
   cor(["The bus leaves at ten.","The lesson finish at three.","The shops closes at six.","The film starts at eight."],[1,2],{1:"The lesson finishes at three.",2:"The shops close at six."},"Singular subject: add -s. Plural subject: no -s.")
@@ -376,7 +384,7 @@ const LEVELS=[
   Object.assign(mc("Leo and Mia make plans.","Mia: 'What are you doing on Saturday?'\nLeo: 'I ___ my cousin at the station at ten.'",["am meeting","am going to meet","meet"],[0,1],"Both are natural. The progressive stresses that it is arranged. Going to stresses the plan."),{stage:"Recognise"}),
   Object.assign(mc("Anna says: 'I'll tell her.' Ben says: 'I'm going to tell her.'","Which sentence more strongly suggests an earlier plan?",["Anna's","Ben's","Neither suggests anything"],1,"Both are possible. Going to leans towards a plan made earlier."),{stage:"Explain"}),
   Object.assign(mc("Compare: 'We're flying to Rome on Friday.' and 'We're going to fly to Rome on Friday.'","Which puts more emphasis on the arrangement being made?",["We're flying…","We're going to fly…","They are identical"],0,"The present progressive points at the arrangement. Going to points at the plan."),{stage:"Explain"}),
-  Object.assign(mc("Someone looks out of the window at heavy dark clouds.","Which sentence sounds more like she can see signs of rain?",["It's going to rain.","It will rain.","Neither can be said about clouds"],0,"Both can be said. Going to leans on present evidence."),{stage:"Explain"}),
+  Object.assign(mc("A woman looks out of the window at heavy dark clouds.","Which sentence sounds more like she can see signs of rain?",["It's going to rain.","It will rain.","Neither can be said about clouds"],0,"Both can be said. Going to leans on present evidence."),{stage:"Explain"}),
   Object.assign(build("Tickets are booked. Build a sentence about it. More than one answer is right.",["We're","going","to","fly","flying","to","Rome","on","Friday"],["We're flying to Rome on Friday","We're going to fly to Rome on Friday"],"Both are correct: the progressive version, or going to."),{stage:"Use"}),
   Object.assign(mc("Two friends arrange Saturday.","Ana: 'Are you free after school?'\nBen: 'No, I ___ my dentist at four.'",["am seeing","am going to see","saw"],[0,1],"Both are natural. The progressive stresses the booked appointment. Going to stresses the plan."),{stage:"Use"})
  ]},
@@ -384,12 +392,12 @@ const LEVELS=[
 /* 6 */ {name:"the decider",col:"var(--paper)",blurb:"all four forms mixed together",decider:true,
  jobs:[
   {q:"Is it on a timetable or schedule?",ans:"present simple",col:"var(--simple)"},
-  {q:"Is it a fixed arrangement with a time and a person?",ans:"present progressive",col:"var(--prog)"},
+  {q:"Is it an arrangement, with a time, a place or a person?",ans:"present progressive",col:"var(--prog)"},
   {q:"Is it an earlier plan, or something you can see coming?",ans:"going to",col:"var(--going)"},
   {q:"Are you deciding now, offering, promising or giving an opinion?",ans:"will",col:"var(--will)"}],
  items:[
   sort("The doorbell has just rung. You are in the kitchen.","I'll get it!",0,"The speaker uses will, for a decision made as they speak."),
-  sort("Black clouds cover the sky.","It's going to pour!",1,"The speaker uses going to, because the evidence is visible."),
+  sort("Black clouds cover the sky.","It's going to pour!",1,"The speaker uses going to, which often fits when the evidence is visible."),
   sort("The station display.","The 9:15 train to Vienna leaves from platform 4.",3,"This is present simple: a timetable."),
   sort("Grandma has confirmed: Saturday, 7 pm, her flat.","We're having dinner with Grandma on Saturday at 7.",2,"This is present progressive: an arrangement. Going to would also work."),
   sort("Lena made up her mind last month. No class is booked yet.","I'm going to learn the guitar.",1,"This is going to: an earlier decision with no arrangement yet."),
@@ -427,28 +435,86 @@ const BOSS=[
 ];
 
 /* ---------- writing prompts ---------- */
+/* These are PATTERN checks. They look for words and shapes. They do not check grammar. */
+const AUX="(?:am|is|are|'m|'s|'re)";
 const TIME=/\b(mon|tues|wednes|thurs|fri|satur|sun)day\b|tomorrow|tonight|\bat\s+(\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|noon|midnight)|\d\s*(am|pm)\b|\d[:.]\d\d|o'clock|\bnext\s+\w+|\bthis\s+(week|weekend|evening|afternoon|morning)/i;
-const WILL=s=>/\b(will|'ll|won't)\s+[a-z]+/i.test(s);
-const GOING=s=>/\b(am|is|are|'m|'s|'re)\s+(not\s+)?going\s+to\s+[a-z]+/i.test(s);
-const PROG=s=>/\b(am|is|are|'m|'s|'re)\s+(not\s+)?[a-z]+ing\b/i.test(s)&&!/going\s+to/i.test(s)&&TIME.test(s);
-const SIMPLE=s=>TIME.test(s)&&!/\b(will|won't)\b|'ll|going\s+to|\b(am|is|are)\s+\w+ing|'(m|re|s)\s+\w+ing/i.test(s);
+const WILLRX=/\b(will|'ll|won't)\s+[a-z]+/i;
+const GOINGRX=new RegExp("\\b"+AUX+"\\s+(?:not\\s+)?going\\s+to\\s+[a-z]+","i");
+const GOINGAUX=new RegExp("\\b"+AUX+"\\s+(?:not\\s+)?going\\s+to","i");
+const PROGRX=new RegExp("\\b"+AUX+"\\s+(?:not\\s+)?[a-z]+ing\\b","i");
+const OTHERFUT=/\b(will|won't)\b|'ll|going\s+to|\b(am|is|are)\s+\w+ing\b|'(m|re|s)\s+\w+ing/i;
+const plainS=w=>/s$/i.test(w)&&!/ss$/i.test(w)&&!/^(is|has|was|this|his|us|yes|bus)$/i.test(w);
+function willWarn(s){
+  let m;
+  if(/\b(will|'ll|won't)\s+to\b/i.test(s))return "After will, use the plain verb with no 'to'.";
+  if((m=s.match(/\b(?:will|'ll|won't)\s+([a-z]+)/i))&&plainS(m[1]))return `Check "${m[1]}": after will, the verb has no -s.`;
+  return "";
+}
+function goingWarn(s){
+  let m;
+  if(/going\s+to/i.test(s)&&!GOINGAUX.test(s))return "Is there am / is / are before 'going to'?";
+  if((m=s.match(/going\s+to\s+([a-z]+ing)\b/i)))return `After going to, use the plain verb, not "${m[1]}".`;
+  if((m=s.match(/going\s+to\s+([a-z]+)/i))&&plainS(m[1]))return `Check "${m[1]}": after going to, the verb has no -s.`;
+  return "";
+}
+function progWarn(s){
+  if(/going\s+to/i.test(s))return "This uses going to. The task asks for am / is / are + verb-ing.";
+  if(/\b(will|won't)\b|'ll/i.test(s))return "This uses will. The task asks for am / is / are + verb-ing.";
+  if(/\b[a-z]+ing\b/i.test(s)&&!PROGRX.test(s))return "Is there am / is / are before the -ing verb?";
+  return "";
+}
+const SUBJ="(?:it|he|she|(?:the|my|our|this|that|a|your|his|her|their)\\s+(?!children\\b|people\\b|men\\b|women\\b|police\\b|teachers\\b)(?:\\w*[^s\\W]|\\w*ss|bus))";
+const BASEV="leave|start|begin|open|close|finish|arrive|depart|end|run|go|come|take|stop|play|show|land|rise|set|get|do|have|cost|last";
+const AGR=new RegExp("\\b("+SUBJ+")\\s+("+BASEV+")\\b","i");
+function simpleWarn(s){
+  const m=s.match(AGR);
+  if(m){const v=m[2].toLowerCase(),sug=v==="have"?"has":/(o|ch|sh|ss|x)$/.test(v)?v+"es":v+"s";
+    return `Check the verb ending after "${m[1]}": ${v} → ${sug}. A singular subject (it, he, she, the bus) takes -s in the present simple.`}
+  if(OTHERFUT.test(s))return "This uses will, going to or an -ing form. The task asks for the present simple.";
+  return "";
+}
 const FORMCOL=["var(--will)","var(--going)","var(--prog)","var(--simple)"];
+const OK3="The sentence reads naturally to me.";
 const PROMPTS=[
- {f:0,p:"Make a promise to someone.",start:"I promise I'll …",model:"I promise I'll help you with your homework.",chk:"will + verb",rx:WILL},
- {f:1,p:"Say one plan you have already decided on.",start:"I'm going to …",model:"I'm going to learn the guitar this year.",chk:"am / is / are + going to + verb",rx:GOING},
- {f:2,p:"Write something fixed in your diary this week. Add a day or a time.",start:"I'm … on …",model:"I'm meeting Lena on Friday at four.",chk:"am / is / are + verb-ing + a time",rx:PROG},
- {f:3,p:"Write a timetable fact about school, a bus or a film.",start:"The … at …",model:"The bus leaves at ten past eight.",chk:"present simple + a time",rx:SIMPLE},
- {f:0,p:"Predict something about your own life in ten years. Begin with 'I think'.",start:"I think I'll …",model:"I think I'll live in a big city.",chk:"I think + will + verb",rx:s=>/\bi think\b/i.test(s)&&WILL(s)},
- {f:1,p:"Look around you. Predict something you can see coming.",start:"Look! … is going to …",model:"Look! That cup is going to fall.",chk:"going to + what you can see",rx:GOING},
- {f:0,p:"Explain: pick one of your sentences. Why did you choose that form?",start:"I used … because …",model:"I used going to because I decided last week.",chk:"a reason, not only the name of the form",rx:s=>/\bbecause\b/i.test(s)}
+ {f:0,p:"Make a promise to someone.",start:"I promise I'll …",model:"I promise I'll help you with your homework.",
+  pat:[["will, 'll or won't followed by a word",s=>WILLRX.test(s)]],warn:willWarn,
+  list:["It is a promise or an offer about the future.","I used will, 'll or won't, then the plain verb (no 'to', no -s).",OK3]},
+ {f:1,p:"Say one plan you have already decided on.",start:"I'm going to …",model:"I'm going to learn the guitar this year.",
+  pat:[["am / is / are + going to + a word",s=>GOINGRX.test(s)]],warn:goingWarn,
+  list:["It is a plan I decided before now.","I used am / is / are before going to, then the plain verb.",OK3]},
+ {f:2,p:"Write something that is already arranged this week: a person, a place, a booking or a time.",start:"I'm … on …",model:"I'm meeting Lena on Friday at four.",
+  pat:[["am / is / are + a word ending in -ing",s=>PROGRX.test(s)&&!/going\s+to/i.test(s)],["a day, a time or similar marker (helpful, not always needed)",s=>TIME.test(s)]],warn:progWarn,
+  list:["It is already arranged, not just an idea.","I used am / is / are before a verb ending in -ing.","The future meaning is clear from a day, a time or the situation."]},
+ {f:3,p:"Write a timetable fact about school, a bus or a film.",start:"The … at …",model:"The bus leaves at ten past eight.",
+  pat:[["a time or schedule word",s=>TIME.test(s)],["no will, going to or am / is / are + -ing",s=>!OTHERFUT.test(s)]],warn:simpleWarn,
+  list:["It is a timetable or schedule fact.","The verb is in the present simple: no will, no going to, no -ing.","The verb has the right ending: -s after he / she / it / a singular noun (the bus leaves; the buses leave)."]},
+ {f:0,p:"Predict something about your own life in ten years. Begin with 'I think'.",start:"I think I'll …",model:"I think I'll live in a big city.",
+  pat:[["'I think'",s=>/\bi think\b/i.test(s)],["will, 'll or won't followed by a word",s=>WILLRX.test(s)]],warn:willWarn,
+  list:["It is an opinion about the future, not a plan.","I used 'I think' and will + the plain verb.",OK3]},
+ {f:1,p:"Look around you. Predict something you can see coming.",start:"Look! … is going to …",model:"Look! That cup is going to fall.",
+  pat:[["am / is / are + going to + a word",s=>GOINGRX.test(s)]],warn:goingWarn,
+  list:["I can see the evidence right now.","I used am / is / are + going to + the plain verb.",OK3]},
+ {f:0,p:"Explain: pick one of your sentences. Why did you choose that form?",start:"I used … because …",model:"I used going to because I decided last week.",
+  pat:[["the word 'because'",s=>/\bbecause\b/i.test(s)]],warn:()=>"",
+  list:["My reason refers to the situation.","I did not only name the form.","My reason fits the sentence I chose."]}
 ];
 const BOSSP=[
- {f:0,p:"will: make a promise or an offer.",start:"I'll …",model:"I'll carry your bag for you.",chk:"will + verb",rx:WILL},
- {f:1,p:"going to: say a plan you have already decided on.",start:"I'm going to …",model:"I'm going to start a podcast.",chk:"am / is / are + going to + verb",rx:GOING},
- {f:2,p:"present progressive: something fixed in your diary. Add a day or a time.",start:"I'm … on …",model:"I'm meeting my cousin on Friday at four.",chk:"am / is / are + verb-ing + a time",rx:PROG},
- {f:3,p:"present simple: a timetable fact.",start:"The … at …",model:"The last train leaves at 22:40.",chk:"present simple + a time",rx:SIMPLE}
+ {f:0,p:"will: make a promise or an offer.",start:"I'll …",model:"I'll carry your bag for you.",why:"I used will because I was offering as I spoke.",
+  pat:[["will, 'll or won't followed by a word",s=>WILLRX.test(s)]],warn:willWarn,
+  list:["It is a promise or an offer.","I used will, 'll or won't, then the plain verb (no 'to', no -s).",OK3]},
+ {f:1,p:"going to: say a plan you have already decided on.",start:"I'm going to …",model:"I'm going to start a podcast.",why:"I used going to because I decided before I spoke.",
+  pat:[["am / is / are + going to + a word",s=>GOINGRX.test(s)]],warn:goingWarn,
+  list:["It is a plan I decided before now.","I used am / is / are before going to, then the plain verb.",OK3]},
+ {f:2,p:"present progressive: something already arranged. Say who, where or when.",start:"I'm … on …",model:"I'm meeting my cousin on Friday at four.",why:"I used the present progressive because it is already arranged, with a day and a time.",
+  pat:[["am / is / are + a word ending in -ing",s=>PROGRX.test(s)&&!/going\s+to/i.test(s)],["a day, a time or similar marker (helpful, not always needed)",s=>TIME.test(s)]],warn:progWarn,
+  list:["It is already arranged, not just an idea.","I used am / is / are before a verb ending in -ing.","The future meaning is clear from a day, a time or the situation."]},
+ {f:3,p:"present simple: a timetable fact.",start:"The … at …",model:"The last train leaves at 22:40.",why:"I used the present simple because it is a timetable fact.",
+  pat:[["a time or schedule word",s=>TIME.test(s)],["no will, going to or am / is / are + -ing",s=>!OTHERFUT.test(s)]],warn:simpleWarn,
+  list:["It is a timetable or schedule fact.","The verb is in the present simple: no will, no going to, no -ing.","The verb has the right ending: -s after he / she / it / a singular noun (the train leaves; the trains leave)."]}
 ];
+const RLIST=["My reason refers to the situation, not only the name of the form.","I can say what another form would change."];
 const norm=t=>String(t||"").replace(/[‘’]/g,"'");
+const ticked=(P,tick,i)=>!!(tick[i]&&P[i].list.every((_,j)=>tick[i][j]));
 
 /* ---------- item ids + lookup ---------- */
 const ITEMS={};
@@ -622,9 +688,9 @@ function fixText(it){
 function stageChips(){
   return `<div class="chips">${Object.keys(G.st).map(s=>`<span class="${G.st[s].ok<G.st[s].n?"low":""}">${esc(s)} ${G.st[s].ok}/${G.st[s].n}</span>`).join("")}</div>`;
 }
-function collage(prompts,w,tick){
+function collage(prompts,w,tick,extra){
   const items=prompts.map((p,i)=>({p,i,t:(w[i]||"").trim()})).filter(x=>x.t);
-  return `<div class="collage">${items.map((x,k)=>scrap(`<div class="tag">${FORMS[x.p.f]}${tick[x.i]?" · checked":""}</div><div class="sentc">${esc(x.t)}</div>`,{c:FORMCOL[x.p.f],r:k%2?1:-1,cls:"taped"})).join("")}</div>`;
+  return `<div class="collage">${items.map((x,k)=>scrap(`<div class="tag">${FORMS[x.p.f]}${ticked(prompts,tick,x.i)?" · checked by you":""}</div><div class="sentc">${esc(x.t)}</div>${extra?extra(x.i):""}`,{c:FORMCOL[x.p.f],r:k%2?1:-1,cls:"taped"})).join("")}</div>`;
 }
 function viewResult(){
   const R=G.R,n=G.items.length,LV=(G.boss||G.fix)?null:LEVELS[G.l];
@@ -639,7 +705,10 @@ function viewResult(){
     if(R.pass)h+=`<div class="rank">${STARWORD[R.stars]}</div><div class="bigstars" role="img" aria-label="${R.stars} of 3 stars">${stars(R.stars)}</div>`;
   }
   if(!G.fix)h+=`<div class="stat">${G.ok} of ${n} right · ${G.pts} pts${R.pass?"":G.boss?" · out of tape":" · you need "+R.need+" to pass"}</div>${stageChips()}`;
-  if(G.boss&&R.pass&&G.w)h+=`<h2 class="rank" style="font-size:30px">Your four sentences</h2>${collage(BOSSP,G.w,G.tick)}`;
+  if(G.boss&&R.pass&&G.w){
+    h+=`<div class="chips"><span>Completed: ${n} questions, 4 sentences, 4 reflections</span><span class="${R.und<4?"low":""}">Understanding, self-assessed: ${R.und} of 4</span><span>Sentences you checked: ${R.wt} of 4</span></div>
+    <h2 class="rank" style="font-size:30px">Your four sentences</h2>${collage(BOSSP,G.w,G.tick,i=>`<div class="wf">You said: <b>${G.rf.form[i]===null?"-":FORMS[G.rf.form[i]]}</b>. ${esc(G.rf.expl[i])}</div>`)}`;
+  }
   if(R.pass&&!G.fix&&!G.boss&&R.stars<3){
     const low=Object.keys(G.st).filter(s=>G.st[s].ok<G.st[s].n);
     if(low.length)h+=`<p class="stat" style="font-size:17px">To reach mastery: get every ${low.join(" and ")} question right.${S.missed.length?" Fix-it on the board has your missed ones.":""}</p>`;
@@ -666,14 +735,20 @@ function viewResult(){
 }
 
 /* ---------- writing views ---------- */
+function pcBlock(p,txt){
+  const s=norm(txt),w=p.warn?p.warn(s):"";
+  return `<div class="wf"><b>Pattern check.</b> This only looks for patterns. It does not check grammar.</div>
+    <ul class="pc">${p.pat.map(([l,f])=>`<li>${f(s)?"✓ found":"✗ not found"}: ${esc(l)}</li>`).join("")}</ul>
+    ${w?`<div class="wf warn">⚠ ${esc(w)}</div>`:""}`;
+}
 function viewWrite(){
-  const P=G.prompts,filled=G.w.filter(x=>x.trim()).length,need=G.boss?4:4;
+  const P=G.prompts,filled=G.w.filter(x=>x.trim()).length;
   const rows=P.map((p,i)=>{
     const txt=G.w[i].trim();
     let fb="";
     if(G.checked&&txt){
-      fb=`<div class="wf"><b>Model:</b> ${esc(p.model)}</div><div class="wf"><b>Pattern:</b> ${esc(p.chk)}. Quick check: ${G.wok[i]?"looks right.":"not sure, compare with the model."}</div>
-      <label class="tk"><input type="checkbox" data-t="${i}" ${G.tick[i]?"checked":""}> My sentence follows the same pattern</label>`;
+      fb=`${pcBlock(p,txt)}<div class="wf"><b>Model:</b> ${esc(p.model)}</div>
+      <fieldset class="ck"><legend>Compare with the model. Tick what is true.</legend>${p.list.map((x,j)=>`<label class="tk"><input type="checkbox" data-t="${i}-${j}" ${G.tick[i]&&G.tick[i][j]?"checked":""}> ${esc(x)}</label>`).join("")}</fieldset>`;
     }
     return `<div>${scrap(`<label for="w${i}" class="wp">${i+1}. ${esc(p.p)}</label><input id="w${i}" class="wi" data-i="${i}" type="text" value="${esc(G.w[i])}" placeholder="${esc(p.start)}" autocomplete="off" autocapitalize="sentences" spellcheck="false">${fb}`,{c:FORMCOL[p.f],r:i%2?.5:-.5,p:14})}</div>`}).join("");
   const partner=G.boss?"":`<div class="s taped" style="--r:.6deg;margin-top:34px"><div class="torn" style="--c:var(--paper)"><h2 style="font-family:var(--marker);font-weight:400;font-size:28px">Partner task (speak, don't type)</h2>
@@ -681,34 +756,67 @@ function viewWrite(){
     <div class="pair"><div><h3>Partner A</h3><p>Sat 10:00 football match<br>Sat 12:30 lunch at Gran's</p></div><div><h3>Partner B</h3><p>Sat 9:00 swimming<br>Sat 14:30 piano lesson, until 15:30</p></div></div></div></div>`;
   return `${vtop(G.boss?"Write your note":"Your page")}<button class="btn ghost back sm" data-a="go" data-v="board">← Board</button>
     <h1 class="hero" style="font-size:clamp(26px,7vw,60px)">${ransom(G.boss?"YOUR NOTE":"YOUR PAGE",1)}</h1>
-    ${G.boss?`<div class="sub">${scrap(`Last task. Write one sentence in each of the four forms. All four are needed to seal the note.`,{r:-.8,cls:"taped"})}</div>`:""}
+    ${G.boss?`<div class="sub">${scrap(`Last task. Write one sentence in each of the four forms. Next you will say which form you used and why.`,{r:-.8,cls:"taped"})}</div>`:""}
     <div class="wlist">${rows}</div>
-    <p class="stat" style="margin-top:16px;font-size:16px">The quick check is a rough guess, not a mark. You decide with the model.</p>
+    <p class="stat" style="margin-top:16px;font-size:16px">The pattern check finds patterns only. The model and your checklist are how you judge your sentence.</p>
     ${G.msg?`<p class="stat" role="alert" style="margin-top:8px">${esc(G.msg)}</p>`:""}
-    <div class="row"><button class="btn ghost" data-a="wcheck">Check my sentences</button><button class="btn" data-a="wdone" ${filled>=need&&(!G.boss||filled>=4)?"":"disabled"}>${G.boss?"Seal the note →":"Paste it in →"}</button></div>
-    <p class="stat" style="margin-top:12px;font-size:16px">${G.boss?"Fill all four to finish.":"Write at least four to finish."} ${filled} so far.</p>
+    <div class="row"><button class="btn ghost" data-a="wcheck">Check my sentences</button><button class="btn" data-a="wdone" ${filled>=4?"":"disabled"}>${G.boss?"Next: reflect →":"Paste it in →"}</button></div>
+    <p class="stat" style="margin-top:12px;font-size:16px">${G.boss?"Fill all four to continue.":"Write at least four to finish."} ${filled} so far.</p>
     ${partner}`;
 }
 function viewWResult(){
   const R=G.R;
   return `${vtop("Your page")}<div class="res"><div class="stamp win">PASTED!</div><div class="bigstars" role="img" aria-label="${R.stars} of 3 stars">${stars(R.stars)}</div>
-    <div class="stat">${R.filled} written · ${R.ticks} checked by you · ${R.pts} pts</div>
+    <div class="chips"><span>Completed: ${R.filled} written</span><span class="${R.ticks<R.filled?"low":""}">Checked by you: ${R.ticks} of ${R.filled}</span></div>
+    <div class="stat">${R.pts} pts</div>
     <h2 class="rank">Your Futures Page</h2>${collage(G.prompts,G.w,G.tick)}
     <p class="stat" style="font-size:16px">Stars here show how much you wrote, not how accurate it was. Take a screenshot or show your teacher.</p>
     <div class="row center"><button class="btn" data-a="go" data-v="board">${S.passed.every(Boolean)?"Face the boss →":"Back to the board"}</button><button class="btn ghost" data-a="wedit">Edit my page</button></div></div>`;
 }
-function runChecks(){G.wok=G.prompts.map((p,i)=>!!G.w[i].trim()&&!!p.rx&&p.rx(norm(G.w[i])))}
-function wcheck(){runChecks();G.checked=true;G.msg="";PF='[data-a=wcheck]';render();const n=G.w.filter(x=>x.trim()).length;say(n?`Checked ${n} sentence${n===1?"":"s"}. Models and checkboxes are now shown.`:"Write a sentence first.")}
+function viewReflect(){
+  const R=G.rf;
+  const rows=BOSSP.map((p,i)=>{
+    const sel=R.form[i];
+    let fb="";
+    if(R.checked){
+      const m=sel===null?"You have not picked a form yet.":sel===p.f?`You picked ${FORMS[sel]}. That matches the task.`:`You picked ${FORMS[sel]}. The task asked for ${FORMS[p.f]}. Re-read your sentence: does it follow that pattern?`;
+      fb=`<div class="wf"><b>Task:</b> ${FORMS[p.f]}. ${esc(m)}</div><div class="wf"><b>Model reason:</b> ${esc(p.why)}</div>
+      <fieldset class="ck"><legend>Compare with the model. Tick what is true.</legend>${RLIST.map((x,j)=>`<label class="tk"><input type="checkbox" data-rt="${i}-${j}" ${R.tick[i][j]?"checked":""}> ${esc(x)}</label>`).join("")}</fieldset>`;
+    }
+    return `<div>${scrap(`<p class="wp">${i+1}. Your sentence: “${esc(G.w[i].trim())}”</p>
+      <fieldset class="rg"><legend class="wp">Which form did you use?</legend>${FORMS.map((f,k)=>`<label class="radio"><input type="radio" name="rf${i}" data-rf="${i}" value="${k}" ${sel===k?"checked":""}> ${f}</label>`).join("")}</fieldset>
+      <label for="r${i}" class="wp" style="margin-top:12px">Why did that form fit?</label><input id="r${i}" class="wi ri" data-i="${i}" type="text" value="${esc(R.expl[i])}" placeholder="I used … because …" autocomplete="off" spellcheck="false">${fb}`,{c:FORMCOL[p.f],r:i%2?.5:-.5,p:14})}</div>`}).join("");
+  const ready=R.form.every(x=>x!==null)&&R.expl.every(x=>x.trim());
+  return `${vtop("Reflect on your note")}<h1 class="hero" style="font-size:clamp(26px,7vw,60px)">${ransom("REFLECT",4)}</h1>
+    <div class="sub">${scrap(`For each sentence, say which form you used and why. Then check your reasons against the model. This part shows understanding, not only that you finished.`,{r:-.8,cls:"taped"})}</div>
+    <div class="wlist">${rows}</div>
+    <p class="stat" style="margin-top:16px;font-size:16px">Your answers here are self-assessed. Show your teacher for a proper check.</p>
+    ${R.msg?`<p class="stat" role="alert" style="margin-top:8px">${esc(R.msg)}</p>`:""}
+    <div class="row"><button class="btn ghost" data-a="rcheck">Check my reasons</button><button class="btn" data-a="rdone" ${ready?"":"disabled"}>Seal the note →</button></div>
+    <p class="stat" style="margin-top:12px;font-size:16px">Pick a form and give a reason for all four to finish.</p>`;
+}
+function runChecks(){}
+function wcheck(){G.checked=true;G.msg="";PF='[data-a=wcheck]';render();const n=G.w.filter(x=>x.trim()).length;say(n?`Checked ${n} sentence${n===1?"":"s"}. Pattern results, models and checklists are now shown.`:"Write a sentence first.")}
 function wdone(){
   const filled=G.w.filter(x=>x.trim()).length;
-  if(filled<4){G.msg=G.boss?"Fill in all four sentences first.":"Write at least four sentences first.";PF='[role=alert]';render();return}
-  runChecks();
-  const ticks=G.prompts.reduce((a,p,i)=>a+(G.tick[i]&&G.w[i].trim()?1:0),0);
-  if(G.boss){finishBoss(ticks);return}
+  if(filled<4){G.msg=G.boss?"Fill in all four sentences first.":"Write at least four sentences first.";PF="[data-a=wcheck]";render();say(G.msg);return}
+  const ticks=G.prompts.reduce((a,p,i)=>a+(G.w[i].trim()&&ticked(G.prompts,G.tick,i)?1:0),0);
+  if(G.boss){
+    G.wt=ticks;
+    G.rf={form:BOSSP.map(()=>null),expl:BOSSP.map(()=>""),tick:BOSSP.map(()=>[]),checked:false,msg:""};
+    G.write=false;G.reflect=true;V={view:"reflect",arg:null};PF="#vtop";render();window.scrollTo(0,0);return;
+  }
   const st=filled>=7?3:filled>=6?2:1,pts=ticks*10;
   G.R={filled,ticks,stars:st,pts};
   S.passed[G.l]=true;S.stars[G.l]=Math.max(S.stars[G.l],st);S.pts[G.l]=Math.max(S.pts[G.l],pts);save();
   V={view:"wresult",arg:null};PF="#vtop";render();window.scrollTo(0,0);
+}
+function rcheck(){G.rf.checked=true;G.rf.msg="";PF='[data-a=rcheck]';render();say("Checked. Model reasons and checklists are now shown.")}
+function rdone(){
+  const R=G.rf;
+  if(!(R.form.every(x=>x!==null)&&R.expl.every(x=>x.trim()))){R.msg="Pick a form and give a reason for all four.";render();say(R.msg);return}
+  const und=BOSSP.reduce((a,p,i)=>a+(R.form[i]===p.f&&RLIST.every((_,j)=>R.tick[i][j])&&R.expl[i].trim()?1:0),0);
+  finishBoss(G.wt,und);
 }
 
 /* ---------- engine ---------- */
@@ -784,14 +892,15 @@ function finish(){
   }
   G.R=R;save();V={view:"result",arg:null};PF="#vtop";render();window.scrollTo(0,0);
 }
-function finishBoss(ticks){
+function finishBoss(wt,und){
   const n=G.items.length;
-  const R={pass:true};
-  R.rank=(G.ok===n&&ticks===4)?"Future-proof":G.ok>=n-1?"Scrapbook pro":"Sharp scissors";
-  R.stars=(G.ok>=n-1&&mastered()&&ticks>=3)?3:G.ok>=n-2?2:1;
-  G.pts+=ticks*10;
+  const R={pass:true,wt,und};
+  R.rank=(G.ok===n&&und===4)?"Future-proof":(G.ok>=n-1&&und>=3)?"Scrapbook pro":"Sharp scissors";
+  R.stars=(G.ok>=n-1&&mastered()&&und>=3)?3:G.ok>=n-2?2:1;
+  G.pts+=wt*10+und*10;
   S.boss.done=true;S.boss.best=Math.max(S.boss.best,G.pts);S.boss.lives=Math.max(S.boss.lives,G.lives);S.boss.stars=Math.max(S.boss.stars,R.stars);
-  G.R=R;G.write=false;save();V={view:"result",arg:null};PF="#vtop";render();window.scrollTo(0,0);
+  G.R=R;G.write=false;G.reflect=false;save();V={view:"result",arg:null};PF="#vtop";render();window.scrollTo(0,0);
+  say(`Note complete. ${R.rank}. Understanding, self-assessed: ${und} of 4.`);
   confetti();
 }
 function confetti(){
@@ -815,6 +924,7 @@ function render(){
   else if(V.view==="result")a.innerHTML=viewResult();
   else if(V.view==="write")a.innerHTML=viewWrite();
   else if(V.view==="wresult")a.innerHTML=viewWResult();
+  else if(V.view==="reflect")a.innerHTML=viewReflect();
   else if(V.view==="boss"){start("boss");return}
   tear();
   if(PF){const el=$(PF);PF=null;if(el)try{el.focus({preventScroll:true})}catch(e){el.focus()}}
@@ -836,6 +946,8 @@ document.addEventListener("click",e=>{
   else if(a==="ccheck")checkCor();
   else if(a==="wcheck")wcheck();
   else if(a==="wdone")wdone();
+  else if(a==="rcheck")rcheck();
+  else if(a==="rdone")rdone();
   else if(a==="wedit"){V={view:"write",arg:null};PF="#vtop";render()}
   else if(a==="cheat")openOv("#ov","#ovclose");
   else if(a==="closecheat")closeOv("#ov");
@@ -851,10 +963,21 @@ document.addEventListener("keydown",e=>{
       if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
       else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}}
   }
-  if(e.key==="Enter"&&G&&G.write&&V.view==="write"&&e.target.classList&&e.target.classList.contains("wi")){e.preventDefault();wcheck()}
+  if(e.key==="Enter"&&G&&e.target.classList&&e.target.classList.contains("wi")){
+    if(G.write&&V.view==="write"){e.preventDefault();wcheck()}
+    else if(G.reflect&&V.view==="reflect"){e.preventDefault();rcheck()}
+  }
 });
-document.addEventListener("input",e=>{const t=e.target;if(G&&G.write&&t.classList&&t.classList.contains("wi"))G.w[+t.dataset.i]=t.value});
-document.addEventListener("change",e=>{const t=e.target;if(G&&G.write&&t.dataset&&t.dataset.t!==undefined)G.tick[+t.dataset.t]=t.checked});
+document.addEventListener("input",e=>{const t=e.target;if(!G||!t.classList)return;
+  if(G.write&&t.classList.contains("wi")&&!t.classList.contains("ri"))G.w[+t.dataset.i]=t.value;
+  else if(G.reflect&&t.classList.contains("ri")){G.rf.expl[+t.dataset.i]=t.value;const b=$("[data-a=rdone]");if(b)b.disabled=!(G.rf.form.every(x=>x!==null)&&G.rf.expl.every(x=>x.trim()))}
+  if(G.write){const b=$("[data-a=wdone]");if(b)b.disabled=G.w.filter(x=>x.trim()).length<4}
+});
+document.addEventListener("change",e=>{const t=e.target;if(!G||!t.dataset)return;
+  if(G.write&&t.dataset.t!==undefined){const [i,j]=t.dataset.t.split("-").map(Number);G.tick[i]=G.tick[i]||[];G.tick[i][j]=t.checked}
+  else if(G.reflect&&t.dataset.rt!==undefined){const [i,j]=t.dataset.rt.split("-").map(Number);G.rf.tick[i][j]=t.checked}
+  else if(G.reflect&&t.dataset.rf!==undefined){G.rf.form[+t.dataset.rf]=+t.value;const b=$("[data-a=rdone]");if(b)b.disabled=!(G.rf.form.every(x=>x!==null)&&G.rf.expl.every(x=>x.trim()))}
+});
 render();
 </script>
 </body>
